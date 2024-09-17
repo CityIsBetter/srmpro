@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Initialize the browser here, but in the outer scope
-    browser = await puppeteer.launch({ headless: false });
+    browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     await page.goto('https://academia.srmist.edu.in/', { waitUntil: 'networkidle2' });

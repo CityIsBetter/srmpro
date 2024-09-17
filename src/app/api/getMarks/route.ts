@@ -39,11 +39,18 @@ export async function GET(request: NextRequest) {
 
         const testPerformance = Array.from(cells[2]?.querySelectorAll('table tr') || []).map(testRow => {
           const testCells = testRow.querySelectorAll('td');
-          return {
-            testName: testCells[0]?.textContent?.trim() || 'N/A',
-            testScore: testCells[1]?.textContent?.trim() || 'N/A',
-          };
-        });
+        
+          // Map over all <td> elements to extract the test name and score
+          return Array.from(testCells).map(testCell => {
+            const testName = testCell?.querySelector('strong')?.textContent?.trim() || 'N/A';
+            const testScore = testCell?.querySelector('br')?.nextSibling?.textContent?.trim() || 'N/A';
+        
+            return {
+              testName,
+              testScore,
+            };
+          });
+        }).flat(); // Flatten the array if needed        
 
         return {
           courseCode,

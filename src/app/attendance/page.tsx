@@ -73,7 +73,7 @@ export default function AttendancePage() {
     const marginStatus = calculateBunksLeft(conducted, attended);
 
     return (
-      <div className={`flex items-center space-x-6 bg-gray-200 dark:bg-gray-900 rounded-xl p-4 border-2 ${marginStatus > 0 ? "border-gray-300 dark:border-gray-700": "border-red-400"}  `} key={index}>
+      <div className={`flex items-center space-x-6 bg-gray-200 dark:bg-gray-900 rounded-xl p-4 border-2 ${marginStatus > 0 ? "border-gray-300 dark:border-gray-700": "border-red-400"} hover:scale-[.99] transition `} key={index}>
         <div className="flex flex-col flex-1 space-y-6">
           <div className="flex items-center space-x-4">
             <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{course.courseTitle}</p>
@@ -81,16 +81,14 @@ export default function AttendancePage() {
           </div>
           <p className="text-base text-gray-700 dark:text-gray-300">{course.facultyName}</p>
         </div>
-        {/* <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{typeof marginStatus === 'number' ? `Bunks left: ${marginStatus}` : marginStatus}</p> */}
-        <div className="flex flex-col gap-1 items-center">
+        <div className="flex flex-col items-center">
           <div className="flex gap-2">
             <p className={`${marginStatus > 0 ? "": "text-red-400"} text-black dark:text-gray-200`}>{marginStatus > 0 ? "margin: " : "required:"}</p>
             <p className={`${marginStatus > 0 ? "text-green-600": "text-red-400"} font-bold`}>{marginStatus > 0 ? marginStatus : -marginStatus}</p>
           </div>
-          <p className='bg-gray-300 dark:bg-gray-800 px-2 py-1 rounded-full text-sm dark:text-gray-200'> <span className='text-red-500 dark:text-red-400'>{course.hoursAbsent}</span>/<span className='text-green-600 dark:text-green-400'>{conducted}</span></p>
         </div>
         <div className="flex-shrink-0 w-24 h-24 flex flex-col items-center justify-center space-y-2">
-          <div className="w-24 h-24">
+        <div className="relative w-24 h-24">
             <CircularProgressbar
               value={attendancePercentage}
               text={`${Math.round(attendancePercentage)}%`}
@@ -100,6 +98,9 @@ export default function AttendancePage() {
                 trailColor: 'rgba(0, 0, 0, 0.1)', // Adjust trail color for dark mode
               })}
             />
+            <p className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-300 dark:bg-gray-800 px-2  rounded-full text-sm dark:text-gray-200">
+              <span className="text-red-500 dark:text-red-400">{course.hoursAbsent}</span>/<span className="text-green-600 dark:text-green-400">{conducted}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -115,7 +116,7 @@ export default function AttendancePage() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-200">Attendance</h1>
         <button
           onClick={fetchAttendance}
-          className="bg-gray-300 hover:bg-gray-400 text-black p-1 mt-2 rounded-full disabled:bg-blue-300 transition"
+          className="bg-blue-500 hover:bg-blue-600 text-white p-1 mt-2 rounded-full disabled:bg-blue-300 transition"
           disabled={loading}
         >
           <IoIosRefresh className='text-lg'/>
@@ -135,7 +136,7 @@ export default function AttendancePage() {
               <div className=' bg-gray-300 dark:bg-gray-950 p-4 rounded-xl'>
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Theory Courses</h2>
-                  <p className='text-sm dark:text-gray-100 mr-36'>absent/toal</p>
+                  <p className='text-sm dark:text-gray-100 mr-6'>absent/toal</p>
                 </div>
                 <div className="space-y-4">
                   {theoryCourses.map((course, index) => renderCourse(course, index))}
@@ -148,7 +149,7 @@ export default function AttendancePage() {
               <div className=' bg-gray-300 dark:bg-gray-950 p-4 rounded-xl'>
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Practical Courses</h2>
-                  <p className='text-sm dark:text-gray-100 mr-36'>absent/toal</p>
+                  <p className='text-sm dark:text-gray-100 mr-6'>absent/toal</p>
                 </div>
                 <div className="space-y-4">
                   {practicalCourses.map((course, index) => renderCourse(course, index))}
